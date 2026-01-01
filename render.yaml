@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: murph-server
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: PINECONE_API_KEY
+        sync: false
+      - key: PINECONE_INDEX_NAME
+        value: murph-brain
+      - key: DATABASE_URL
+        fromDatabase:
+          name: murph-db
+          property: connectionString
+
+databases:
+  - name: murph-db
+    plan: starter
